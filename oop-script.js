@@ -3,6 +3,7 @@
 class App {
   static async run() {
     const movies = await APIService.fetchMovies();
+     console.log(movies);
     HomePage.renderMovies(movies);
   }
 }
@@ -25,12 +26,24 @@ class APIService {
 
   static async fetchActors(movieId) {
     //   console.log(movieId)
-    const url = APIService._constructUrl(`movie/${movieId.id}/credits`); //why just movieId doesn't work here?
+    const url = APIService._constructUrl(`movie/${movieId}/credits`); 
     const response = await fetch(url);
     // console.log(response)
     const data = await response.json();
-     console.log(data)
-    return new Actor(data);
+    //  console.log(data)
+     const arrWithActorInfo = [];
+     for (let i = 0; i < 5; i++) {
+      arrWithActorInfo.push(new Actors(data.cast[i]))
+      // arrWithActorInfo.push(data.cast[i].character)
+      // arrWithActorInfo.push(data.cast[i].name)
+     }
+    //  return data.cast.map((actor) => {
+    //    console.log(actor);
+    //   new Actors(actor)
+    // });
+    // console.log(arrWithActorInfo);
+    return arrWithActorInfo
+    //arrWithActorInfo.forEach(ele => new Actors(ele))
   }
   static _constructUrl(path) {
     return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
@@ -63,7 +76,9 @@ class Movies {
   static async run(movie) {
     const movieData = await APIService.fetchMovie(movie.id);
     MoviePage.renderMovieSection(movieData);
-    APIService.fetchActors(movieData);
+    const actorData =  await APIService.fetchActors(movie.id);
+    console.log(actorData)
+    MoviePage.renderMovieSection(actorData);
   }
 }
 
@@ -76,6 +91,7 @@ class MoviePage {
 
 class MovieSection {
   static renderMovie(movie) {
+    console.log(movie)
     MoviePage.container.innerHTML = `
       <div class="row">
         <div class="col-md-4">
@@ -91,7 +107,7 @@ class MovieSection {
         </div>
       </div>
       <h3>Actors:</h3>
-      <img src=${Actor.profilePath}>
+      <p>Hello</p>
     `;
   }
 }
@@ -130,12 +146,25 @@ class Actor {
 }
 
 class Actors {
-    
+  static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
+    constructor(json) {
+      this.name = json.name;
+      this.backdropPath = json.profile_path;
+      this.character = json.character;
+    }
+
+    get backdropPath () {
+      return this.backdropPath ? Actors.BACKDROP_BASE_URL + this.backdropPath : "";
+    }
 }
 
 document.addEventListener("DOMContentLoaded", App.run);
 
-//fetch list of movies actor participated in from https://api.themoviedb.org/3/person/1117313/movie_credits?api_key=542003918769df50083a13c415bbc602&language=en-US
+// http://image.tmdb.org/t/p/w780/27C77ni5XmlgkJVbomXPC4tHWVd.jpg
+
+//https://api.themoviedb.org/3/movie/577922/credits?api_key=542003918769df50083a13c415bbc602
+
+//fetch list of movies actor participated in from https://api.themoviedb.org/3/person/${movie.id}/movie_credits?api_key=542003918769df50083a13c415bbc602&language=en-US
 //create a new class for it, because we will use it several times
 
 
@@ -151,4 +180,15 @@ document.addEventListener("DOMContentLoaded", App.run);
 
 
 //Thoughts and ideas on how to solve stuff
+
+// In our code we have some important variables that we have to know:
+
+//  1- movies => it's an array of objects/instances created
+//     by the method APIService.fetchMovies() and it contains the fetched
+//     JSON from https://api.themoviedb.org/3/movie/now_playing?api_key=542003918769df50083a13c415bbc602
 //
+//  2- movie => is a single object/instance of movies
+//
+//  3- movieData => is a single object/instance created by the method
+//     APIService.fetchMovie(movie.id) and it contains detailed info
+//     about a movie from fetching https://api.themoviedb.org/3/movie/${movieId}?api_key=542003918769df50083a13c415bbc602
