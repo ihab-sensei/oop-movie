@@ -9,3 +9,23 @@
 #actors {
     margin: 24px 16px 0 0;
 }
+
+.actor-photo {
+    width: 11rem;
+    max-width: 100%;
+}
+
+.actors-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.actors-container h4 {
+    margin: 0;
+}
+
+.smol {
+    width: 200px;
+}
