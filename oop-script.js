@@ -30,17 +30,13 @@ class APIService {
   }
 
   static async fetchActors(movieId) {
-    //   console.log(movieId)
     const url = APIService._constructUrl(`movie/${movieId}/credits`);
     const response = await fetch(url);
-    // console.log(response)
     const data = await response.json();
-    //  console.log(data)
     const arrWithActorInfo = [];
     for (let i = 0; i < 5; i++) {
       arrWithActorInfo.push(new Actors(data.cast[i]));
     }
-
     return arrWithActorInfo;
   }
   static _constructUrl(path) {
@@ -59,20 +55,27 @@ class APIService {
     // for (let i = 0; i < 5; i++) {
     //   arrWithActorInfo.push(new Actors(data.cast[i]));
     // }
-
-    // "credit_id": "5b85eb8692514149f9002cdb",
-    // "department": "Directing",
-    // "gender": 2,
-    // "id": 55789,
-    // "job": "Director",
-    // "name": "Tate Taylor",
-    // "profile_path": "/7xXp4TsBl6OB4v2kNqvKAG5uOnh.jpg"
   }
   static _constructUrl(path) {
     return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
       "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
     )}`;
   }
+  // static async fetchSimilarMovies(movieId) {
+  //   const url = APIService._constructUrl(`movie/${movieId}/similar`);
+  //   const response = await fetch(url);
+  //   const data = await response.json();
+  //   const arrWithSimilarMovies = [];
+  //   for (let i = 0; i < 5; i++) {
+  //     arrWithSimilarMovies.push(new SimilarMovies(data.results[i]));
+  //   }
+  //   return arrWithSimilarMovies;
+  // }
+  // static _constructUrl(path) {
+  //   return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
+  //     "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
+  //   )}`;
+  // }
 }
 
 class HomePage {
@@ -82,7 +85,7 @@ class HomePage {
     movies.forEach((movie) => {
       const movieDiv = document.createElement("div");
       const movieImage = document.createElement("img");
-      movieImage.src = `${movie.backdropUrl}`; //ask about template literals
+      movieImage.src = `${movie.backdropUrl}`;
       const movieTitle = document.createElement("h3");
       movieTitle.textContent = `${movie.title}`;
       movieImage.addEventListener("click", function () {
@@ -101,22 +104,28 @@ class Movies {
     const movieData = await APIService.fetchMovie(movie.id);
     const actorData = await APIService.fetchActors(movie.id);
     const crewData = await APIService.fetchCrew(movie.id);
+    // const similarMoviesData = await APIService.fetchSimilarMovies(movie.id);
     //console.log(actorData);
 
+    //add similarMoviesData
     MoviePage.renderMovieSection(movieData, actorData, crewData);
   }
 }
 
 class MoviePage {
   static container = document.getElementById("container");
+  //add similarMovies
   static renderMovieSection(movie, actors, crew) {
+    //add similarMovies
     MovieSection.renderMovie(movie, actors, crew);
   }
 }
 
 class MovieSection {
+  //add similarMovies
   static renderMovie(movie, actors, crew) {
     // console.log(crew);
+    // console.log(similarMovies);
     MoviePage.container.innerHTML = `
       <div class="row">
         <div class="col-md-4">
@@ -138,8 +147,10 @@ class MovieSection {
     for (const crewMember of crew) {
       // console.log(crewMember);
       if (crewMember.directorName) {
-        console.log(crewMember);
-        MoviePage.container.innerHTML += `<p>${crewMember.directorName}</p>`;
+        if (crewMember.backdropUrl) {
+          MoviePage.container.innerHTML += `<img src=${crewMember.backdropUrl} class="directorPic">`;
+          MoviePage.container.innerHTML += `<p>${crewMember.directorName}</p>`;
+        }
         break;
       }
     }
@@ -149,10 +160,12 @@ class MovieSection {
       // console.log(movie.companyName)
       const div = document.createElement("div");
       const h5 = document.createElement("h5");
-      h5.innerText = movie.companyName[i];
       const img = document.createElement("img");
+
+      h5.innerText = movie.companyName[i];
       img.classList = "smol";
       img.src = movie.companyLogo[i];
+
       div.append(h5, img);
       MoviePage.container.appendChild(div);
     }
@@ -167,7 +180,6 @@ class MovieSection {
     actorsContainer.className = "actors-container";
     for (const actor of actors) {
       const singleActor = document.createElement("div");
-
       const img = document.createElement("img");
       const h4 = document.createElement("h4");
       const small = document.createElement("mark");
@@ -176,10 +188,16 @@ class MovieSection {
       img.classList = "actor-photo";
       h4.innerText = actor.name;
       small.innerText = "-" + actor.character;
+
       singleActor.append(img, h4, small);
       actorsContainer.appendChild(singleActor);
       MoviePage.container.appendChild(actorsContainer);
     }
+    // for (const similarMovie of similarMovies) {
+    //   // console.log(similarMovie);
+    //   MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
+    //   MoviePage.container.innerHTML += `<p>${similarMovie.title}</p>`;
+    // }
   }
 }
 
@@ -206,10 +224,6 @@ class Movie {
     }
     return genres;
   }
-  // <p> ${crew.name}</p>el93O7.png",
-  //     "name": "Syncopy",
-  //     "origin_country": "GB"
-  // },
   get companyLogo() {
     let logoPic = [];
     // console.log(this.productionCompany);
@@ -257,18 +271,6 @@ class Actors {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {
     this.name = json.name;
-    this._backdropPath = json.profile_path;
-    this.character = json.character;
-  }
-  get profilePath() {
-    return this.picOfActor ? Actor.BACKDROP_BASE_URL + this.picOfActor : "";
-  }
-}
-
-class Actors {
-  static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
-  constructor(json) {
-    this.name = json.name;
     this.backdropPath = json.profile_path;
     this.character = json.character;
   }
@@ -289,7 +291,6 @@ class Crew {
   }
 
   get directorName() {
-    // console.log(this.name)
     let name;
     if (this.job === "Director") {
       name = this.name;
@@ -301,6 +302,17 @@ class Crew {
     return this.backdropPath ? Crew.BACKDROP_BASE_URL + this.backdropPath : "";
   }
 }
+
+// class SimilarMovies {
+//   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
+//   constructor(json) {
+//     this.title = json.title;
+//     this.backdropPath = json.poster_path;
+//   }
+//   get backdropUrl() {
+//     return this.backdropPath ? Crew.BACKDROP_BASE_URL + this.backdropPath : "";
+//   }
+// }
 
 document.addEventListener("DOMContentLoaded", App.run);
 

@@ -1,31 +1,34 @@
 #movie-backdrop {
-    width: 100%;
+  width: 100%;
 }
 
 .container {
-    padding-top: 32px;
+  padding-top: 32px;
 }
 
 #actors {
-    margin: 24px 16px 0 0;
+  margin: 24px 16px 0 0;
 }
 
 .actor-photo {
-    width: 11rem;
-    max-width: 100%;
+  width: 11rem;
+  max-width: 100%;
 }
 
 .actors-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin: 10px 0;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 10px 0;
 }
 
 .actors-container h4 {
-    margin: 0;
+  margin: 0;
 }
 
 .smol {
-    width: 200px;
+  width: 200px;
+}
+.directorPic {
+  width: 200px;
 }
