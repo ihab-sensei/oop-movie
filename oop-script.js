@@ -14,7 +14,7 @@ class App {
 // fetchMovie(movieId) => returns new instance of the class Movie (specific).
 // fetchActors(movieId) => returns and array of 5 new instances of the class Actors.
 class APIService {
-  static TMDB_BASE_URL = "https://api.themoviedb.org/3"; //ask about static
+  static TMDB_BASE_URL = "https://api.themoviedb.org/3";
   static async fetchMovies() {
     const url = APIService._constructUrl(`movie/now_playing`);
     const response = await fetch(url);
@@ -22,13 +22,11 @@ class APIService {
     return data.results.map((movie) => new Movie(movie));
   }
   static async fetchMovie(movieId) {
-    //   console.log(movieId)
     const url = APIService._constructUrl(`movie/${movieId}`);
     const response = await fetch(url);
     const data = await response.json();
     return new Movie(data);
   }
-
   static async fetchActors(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}/credits`);
     const response = await fetch(url);
@@ -45,37 +43,47 @@ class APIService {
     )}`;
   }
   static async fetchCrew(movieId) {
-    //   console.log(movieId)
     const url = APIService._constructUrl(`movie/${movieId}/credits`);
     const response = await fetch(url);
-    // console.log(response)
     const data = await response.json();
-    //  console.log(data)
     return data.crew.map((crewMember) => new Crew(crewMember));
-    // for (let i = 0; i < 5; i++) {
-    //   arrWithActorInfo.push(new Actors(data.cast[i]));
-    // }
   }
   static _constructUrl(path) {
     return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
       "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
     )}`;
   }
-  // static async fetchSimilarMovies(movieId) {
-  //   const url = APIService._constructUrl(`movie/${movieId}/similar`);
-  //   const response = await fetch(url);
-  //   const data = await response.json();
-  //   const arrWithSimilarMovies = [];
-  //   for (let i = 0; i < 5; i++) {
-  //     arrWithSimilarMovies.push(new SimilarMovies(data.results[i]));
-  //   }
-  //   return arrWithSimilarMovies;
-  // }
-  // static _constructUrl(path) {
-  //   return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
-  //     "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
-  //   )}`;
-  // }
+  static async fetchSimilarMovies(movieId) {
+    const url = APIService._constructUrl(`movie/${movieId}/similar`);
+    const response = await fetch(url);
+    const data = await response.json();
+    const arrWithSimilarMovies = [];
+    for (let i = 0; i < 5; i++) {
+      if (data.results.length > 0) {
+        arrWithSimilarMovies.push(new SimilarMovies(data.results[i]));
+      } else {
+        return arrWithSimilarMovies;
+      }
+    }
+    return arrWithSimilarMovies;
+  }
+  static _constructUrl(path) {
+    return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
+      "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
+    )}`;
+  }
+  static async fetchActor(personId) {
+    const url = APIService._constructUrl(`person/${personId}`);
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    return new Actor(data);
+  }
+  static _constructUrl(path) {
+    return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
+      "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
+    )}`;
+  }
 }
 
 class HomePage {
@@ -91,7 +99,6 @@ class HomePage {
       movieImage.addEventListener("click", function () {
         Movies.run(movie);
       });
-
       movieDiv.appendChild(movieTitle);
       movieDiv.appendChild(movieImage);
       this.container.appendChild(movieDiv);
@@ -104,26 +111,47 @@ class Movies {
     const movieData = await APIService.fetchMovie(movie.id);
     const actorData = await APIService.fetchActors(movie.id);
     const crewData = await APIService.fetchCrew(movie.id);
-    // const similarMoviesData = await APIService.fetchSimilarMovies(movie.id);
-    //console.log(actorData);
+    const similarMoviesData = await APIService.fetchSimilarMovies(movie.id);
+    MoviePage.renderMovieSection(
+      movieData,
+      actorData,
+      crewData,
+      similarMoviesData
+    );
+  }
+}
+class ActorInfo {
+  static async run(person) {
+    const actorData = await APIService.fetchActor(person.id);
+    console.log(actorData)
+    ActorPage.renderMovieSection(actorData);
+  }
+}
+class ActorPage {
+  static container = document.getElementById("container");
+  //our new fetch service method
+  static renderActorSection(person) {
+    ActorSection.renderActor(person);
+  }
+}
 
-    //add similarMoviesData
-    MoviePage.renderMovieSection(movieData, actorData, crewData);
+class ActorSection {
+  static renderActor(person) {
+    ActorPage.container.innerHTML = `<h1>Hello we are in the actor page</h1>`;
   }
 }
 
 class MoviePage {
   static container = document.getElementById("container");
-  //add similarMovies
-  static renderMovieSection(movie, actors, crew) {
-    //add similarMovies
-    MovieSection.renderMovie(movie, actors, crew);
+  static renderMovieSection(movie, actors, crew, similarMovies) {
+    MovieSection.renderMovie(movie, crew);
+    ActorsSection.renderMovieActors(actors);
+    SimilarMoviesSection.renderSimilarMovies(similarMovies);
   }
 }
 
 class MovieSection {
-  //add similarMovies
-  static renderMovie(movie, actors, crew) {
+  static renderMovie(movie, crew) {
     // console.log(crew);
     // console.log(similarMovies);
     MoviePage.container.innerHTML = `
@@ -145,7 +173,6 @@ class MovieSection {
       </div>
     `;
     for (const crewMember of crew) {
-      // console.log(crewMember);
       if (crewMember.directorName) {
         if (crewMember.backdropUrl) {
           MoviePage.container.innerHTML += `<img src=${crewMember.backdropUrl} class="directorPic">`;
@@ -154,10 +181,7 @@ class MovieSection {
         break;
       }
     }
-
-    // <p id="movie-companyName">${movie.companyName}</p>
     for (let i = 0; i < movie.companyName.length; i++) {
-      // console.log(movie.companyName)
       const div = document.createElement("div");
       const h5 = document.createElement("h5");
       const img = document.createElement("img");
@@ -169,35 +193,48 @@ class MovieSection {
       div.append(h5, img);
       MoviePage.container.appendChild(div);
     }
+  }
+}
 
-    // for (const path of movie.companyLogo) {
-    //   MoviePage.container.innerHTML += `<img src=${path}>`
-    // }
+class ActorsSection {
+  static renderMovieActors(actors) {
     const actorsContainer = document.createElement("div");
     const header = document.createElement("h3");
-    //actorsContainer.insertAdjacentElement("beforebegin", header)
-    //header.innerText = "Actors:" //add this actor to html
     actorsContainer.className = "actors-container";
     for (const actor of actors) {
+      // console.log(actor);
+      // console.log(actors);
       const singleActor = document.createElement("div");
       const img = document.createElement("img");
       const h4 = document.createElement("h4");
       const small = document.createElement("mark");
-
+      
       img.src = actor.backdropUrl;
       img.classList = "actor-photo";
       h4.innerText = actor.name;
       small.innerText = "-" + actor.character;
-
+      
+      img.addEventListener("click", () => {
+        console.log("hello");
+        //ActorInfo.run(actor)
+      })
       singleActor.append(img, h4, small);
       actorsContainer.appendChild(singleActor);
       MoviePage.container.appendChild(actorsContainer);
     }
-    // for (const similarMovie of similarMovies) {
-    //   // console.log(similarMovie);
-    //   MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
-    //   MoviePage.container.innerHTML += `<p>${similarMovie.title}</p>`;
-    // }
+  }
+}
+
+class SimilarMoviesSection {
+  static renderSimilarMovies(similarMovies) {
+    if (similarMovies.length > 0) {
+      for (const similarMovie of similarMovies) {
+        MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
+        MoviePage.container.innerHTML += `<p>${similarMovie.title}</p>`;
+      }
+    } else {
+      MoviePage.container.innerHTML += `<p>No similar movies!</p>`;
+    }
   }
 }
 
@@ -250,26 +287,27 @@ class Movie {
   }
 }
 
-// class Actor {
-//   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
-//   constructor(json) {
-//     this.name = json.name;
-//     this.gender = json.gender;
-//     this.birthday = json.birthday;
-//     this.picOfActor = json.profile_path;
-//     this.actorPopularity = json.popularity;
-//     this.birthday = json.birthday;
-//     this.deathday = json.deathday;
-//     this.actorBiography = json.biography;
-//   }
-//   get profilePath() {
-//     return this.picOfActor ? Actor.BACKDROP_BASE_URL + this.picOfActor : "";
-//   }
-// }
+class Actor {
+  static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
+  constructor(json) {
+    this.name = json.name;
+    this.gender = json.gender;
+    this.birthday = json.birthday;
+    this.picOfActor = json.profile_path;
+    this.actorPopularity = json.popularity;
+    this.deathday = json.deathday;
+    this.actorBiography = json.biography;
+  }
+  get profilePath() {
+    return this.picOfActor ? Actor.BACKDROP_BASE_URL + this.picOfActor : "";
+  }
+}
 
 class Actors {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {
+    this.id = json.id;
+    console.log(this.id);
     this.name = json.name;
     this.backdropPath = json.profile_path;
     this.character = json.character;
@@ -303,16 +341,16 @@ class Crew {
   }
 }
 
-// class SimilarMovies {
-//   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
-//   constructor(json) {
-//     this.title = json.title;
-//     this.backdropPath = json.poster_path;
-//   }
-//   get backdropUrl() {
-//     return this.backdropPath ? Crew.BACKDROP_BASE_URL + this.backdropPath : "";
-//   }
-// }
+class SimilarMovies {
+  static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
+  constructor(json) {
+    this.title = json.title;
+    this.backdropPath = json.poster_path;
+  }
+  get backdropUrl() {
+    return this.backdropPath ? Crew.BACKDROP_BASE_URL + this.backdropPath : "";
+  }
+}
 
 document.addEventListener("DOMContentLoaded", App.run);
 
