@@ -193,14 +193,24 @@ class MovieSection {
       div.append(h5, img);
       MoviePage.container.appendChild(div);
     }
+
+    
   }
 }
 
 class ActorsSection {
   static renderMovieActors(actors) {
+    
     const actorsContainer = document.createElement("div");
     const header = document.createElement("h3");
+    header.addEventListener("click", () => {
+      console.log("hello");
+    })
+    header.innerText = "Actors:"
     actorsContainer.className = "actors-container";
+    MoviePage.container.appendChild(header);
+    console.log(actorsContainer);
+    
     for (const actor of actors) {
       // console.log(actor);
       // console.log(actors);
@@ -208,25 +218,24 @@ class ActorsSection {
       const img = document.createElement("img");
       const h4 = document.createElement("h4");
       const small = document.createElement("mark");
-      
       img.src = actor.backdropUrl;
       img.classList = "actor-photo";
       h4.innerText = actor.name;
       small.innerText = "-" + actor.character;
       
-      img.addEventListener("click", () => {
-        console.log("hello");
-        //ActorInfo.run(actor)
-      })
-      singleActor.append(img, h4, small);
+      singleActor.appendChild(img)
+      singleActor.append(h4, small);
       actorsContainer.appendChild(singleActor);
       MoviePage.container.appendChild(actorsContainer);
+      
     }
+    
   }
 }
 
 class SimilarMoviesSection {
   static renderSimilarMovies(similarMovies) {
+    
     if (similarMovies.length > 0) {
       for (const similarMovie of similarMovies) {
         MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
