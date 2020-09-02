@@ -123,8 +123,8 @@ class Movies {
 class ActorInfo {
   static async run(person) {
     const actorData = await APIService.fetchActor(person.id);
-    console.log(actorData)
-    ActorPage.renderMovieSection(actorData);
+    console.log(actorData);
+    ActorPage.renderActorSection(actorData);
   }
 }
 class ActorPage {
@@ -175,8 +175,14 @@ class MovieSection {
     for (const crewMember of crew) {
       if (crewMember.directorName) {
         if (crewMember.backdropUrl) {
-          MoviePage.container.innerHTML += `<img src=${crewMember.backdropUrl} class="directorPic">`;
-          MoviePage.container.innerHTML += `<p>${crewMember.directorName}</p>`;
+          const directorImg = document.createElement("img");
+          directorImg.src = crewMember.backdropUrl;
+          directorImg.className = "directorPic";
+          const directorName = document.createElement("p");
+          directorName.innerText = crewMember.directorName;
+          MoviePage.container.appendChild(directorImg, directorName);
+          // MoviePage.container.innerHTML += `<img src=${crewMember.backdropUrl} class="directorPic">`;
+          // MoviePage.container.innerHTML += `<p>${crewMember.directorName}</p>`;
         }
         break;
       }
@@ -222,12 +228,14 @@ class ActorsSection {
       img.classList = "actor-photo";
       h4.innerText = actor.name;
       small.innerText = "-" + actor.character;
-      
-      singleActor.appendChild(img)
-      singleActor.append(h4, small);
+
+      singleActor.append(img, h4, small);
       actorsContainer.appendChild(singleActor);
       MoviePage.container.appendChild(actorsContainer);
-      
+
+      singleActor.addEventListener("click", () => {
+        ActorInfo.run(actor);
+      });
     }
     
   }
@@ -238,11 +246,19 @@ class SimilarMoviesSection {
     
     if (similarMovies.length > 0) {
       for (const similarMovie of similarMovies) {
-        MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
-        MoviePage.container.innerHTML += `<p>${similarMovie.title}</p>`;
+        const similarMovieImg = document.createElement("img");
+        similarMovieImg.src = similarMovie.backdropUrl;
+        similarMovieImg.className = "similarMovie";
+        const similarMovieTitle = document.createElement("p");
+        similarMovieTitle.innerText = similarMovie.title;
+        MoviePage.container.appendChild(similarMovieImg, similarMovieTitle);
+        // MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
+        // MoviePage.container.innerHTML += `<p>${similarMovie.title}</p>`;
       }
     } else {
-      MoviePage.container.innerHTML += `<p>No similar movies!</p>`;
+      const similarMovieTitle = document.createElement("p");
+      similarMovieTitle.innerText = `<p>No similar movies!</p>`;
+      MoviePage.container.appendChild(similarMovieImg);
     }
   }
 }
