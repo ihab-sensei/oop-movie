@@ -21,6 +21,12 @@ class APIService {
     const data = await response.json();
     return data.results.map((movie) => new Movie(movie));
   }
+  static async popularActors() {
+    const url = APIService._constructUrl(`person/popular`);
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.results.map((movie) => new Actors(movie));
+  }
   static async fetchMovie(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}`);
     const response = await fetch(url);
@@ -37,22 +43,13 @@ class APIService {
     }
     return arrWithActorInfo;
   }
-  static _constructUrl(path) {
-    return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
-      "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
-    )}`;
-  }
   static async fetchCrew(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}/credits`);
     const response = await fetch(url);
     const data = await response.json();
     return data.crew.map((crewMember) => new Crew(crewMember));
   }
-  static _constructUrl(path) {
-    return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
-      "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
-    )}`;
-  }
+
   static async fetchSimilarMovies(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}/similar`);
     const response = await fetch(url);
@@ -67,17 +64,28 @@ class APIService {
     }
     return arrWithSimilarMovies;
   }
-  static _constructUrl(path) {
-    return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
-      "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="
-    )}`;
-  }
+
   static async fetchActor(personId) {
     const url = APIService._constructUrl(`person/${personId}`);
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
     return new Actor(data);
+  }
+  static async fetchMoviesActorParticipated (personId) {
+    const url = APIService._constructUrl(`person/${personId}/movie_credits`);
+    const response = await fetch(url);
+    const data = await response.json();
+    // console.log(data)
+    const arrWithParticipatedMovies = [];
+    for (let i = 0; i < 5; i++) {
+      if (data.cast.length > 0) {
+        arrWithParticipatedMovies.push(new MoviesParticipatedIn(data.cast[i]));
+      } else {
+        return arrWithParticipatedMovies;
+      }
+    }
+    return arrWithParticipatedMovies;
   }
   static _constructUrl(path) {
     return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
@@ -123,22 +131,64 @@ class Movies {
 class ActorInfo {
   static async run(person) {
     const actorData = await APIService.fetchActor(person.id);
-    console.log(actorData);
-    ActorPage.renderActorSection(actorData);
+    const moviesParticipatedInData = await APIService.fetchMoviesActorParticipated(person.id);
+    ActorPage.renderActorSection(actorData, moviesParticipatedInData);
   }
 }
 class ActorPage {
   static container = document.getElementById("container");
   //our new fetch service method
-  static renderActorSection(person) {
-    ActorSection.renderActor(person);
+  static renderActorSection(person, participatedMovies) {
+    ActorSection.renderActor(person, participatedMovies);
   }
 }
 
 class ActorSection {
-  static renderActor(person) {
-    ActorPage.container.innerHTML = `<h1>Hello we are in the actor page</h1>`;
+  static renderActor(person, participatedMovies) {
+    ActorPage.container.innerHTML = `
+    <img src="${person.profilePath}" class="singleActorPic">
+    <br>
+    <h1>${person.name}</h1>
+    <p>Gender: ${person.actorGender}</p>
+    <p class= "b-day">Born: ${person.birthday}</p>
+    <p>Popularity: ${person.actorPopularity}</p>
+    <h5>Biography</h5>
+    <p>${person.biography}</p>
+    `;
+    if (person.deathDay) {
+      const birthday = document.querySelector(".b-day")
+      const div = document.createElement("div")
+      const deathDay = document.createElement("p")
+      const deathDayDate = document.createElement("p")
+      deathDay.innerText = "Death Day:"
+      deathDayDate.innerText = person.deathDay
+      div.appendChild(deathday, deathDayDate)
+      birthday.insertAdjacentHTML('afterend', div)
+    }
+    
+    //element.insertAdjacentHTML('afterend', text)
+    
+    if (participatedMovies.length > 0) {
+      for (let i = 0; i < participatedMovies.length; i++) {
+        const participatedMovieImg = document.createElement("img");
+        participatedMovieImg.src = participatedMovies[i].backdropUrl
+        participatedMovieImg.className = "participatedMovie";
+        const participatedMovieTitle = document.createElement("p");
+        participatedMovieTitle.innerText = participatedMovies[i].title;
+        ActorPage.container.appendChild(participatedMovieImg, participatedMovieTitle);
+        participatedMovieImg.addEventListener("click", function () {
+          Movies.run(participatedMovies[i]);
+        });
+      }
+      
+    } else {
+      const participatedMovieTitle = document.createElement("p");
+      participatedMovieTitle.innerText = `<p>No movies participated!</p>`;
+     ActorPage.container.appendChild(participatedMovieTitle);
+    }
   }
+
+
 }
 
 class MoviePage {
@@ -181,8 +231,6 @@ class MovieSection {
           const directorName = document.createElement("p");
           directorName.innerText = crewMember.directorName;
           MoviePage.container.appendChild(directorImg, directorName);
-          // MoviePage.container.innerHTML += `<img src=${crewMember.backdropUrl} class="directorPic">`;
-          // MoviePage.container.innerHTML += `<p>${crewMember.directorName}</p>`;
         }
         break;
       }
@@ -209,9 +257,6 @@ class ActorsSection {
     
     const actorsContainer = document.createElement("div");
     const header = document.createElement("h3");
-    header.addEventListener("click", () => {
-      console.log("hello");
-    })
     header.innerText = "Actors:"
     actorsContainer.className = "actors-container";
     MoviePage.container.appendChild(header);
@@ -245,20 +290,24 @@ class SimilarMoviesSection {
   static renderSimilarMovies(similarMovies) {
     
     if (similarMovies.length > 0) {
-      for (const similarMovie of similarMovies) {
-        const similarMovieImg = document.createElement("img");
-        similarMovieImg.src = similarMovie.backdropUrl;
-        similarMovieImg.className = "similarMovie";
-        const similarMovieTitle = document.createElement("p");
-        similarMovieTitle.innerText = similarMovie.title;
-        MoviePage.container.appendChild(similarMovieImg, similarMovieTitle);
-        // MoviePage.container.innerHTML += `<img src=${similarMovie.backdropUrl} class="directorPic">`;
-        // MoviePage.container.innerHTML += `<p>${similarMovie.title}</p>`;
-      }
+      console.log(similarMovies);
+        for (let i = 0; i < similarMovies.length; i++) {
+          const similarMovieImg = document.createElement("img");
+          similarMovieImg.src = similarMovies[i].backdropUrl;
+          similarMovieImg.className = "similarMovie";
+          const similarMovieTitle = document.createElement("p");
+          similarMovieTitle.innerText = similarMovies[i].title;
+          MoviePage.container.appendChild(similarMovieImg, similarMovieTitle);
+          similarMovieImg.addEventListener("click", function () {
+            Movies.run(similarMovies[i]);
+          });
+          
+        }
+        
     } else {
       const similarMovieTitle = document.createElement("p");
-      similarMovieTitle.innerText = `<p>No similar movies!</p>`;
-      MoviePage.container.appendChild(similarMovieImg);
+      similarMovieTitle.innerText = `No similar movies!`;
+      MoviePage.container.appendChild(similarMovieTitle);
     }
   }
 }
@@ -288,7 +337,6 @@ class Movie {
   }
   get companyLogo() {
     let logoPic = [];
-    // console.log(this.productionCompany);
     for (const logo of this.productionCompany) {
       if (logo.logo_path !== null) {
         logoPic.push(Movie.BACKDROP_BASE_URL + logo.logo_path);
@@ -300,7 +348,6 @@ class Movie {
   }
 
   get companyName() {
-    // console.log(this.productionCompany)
     let companyNames = [];
     for (const company of this.productionCompany) {
       companyNames.push(company.name);
@@ -323,6 +370,15 @@ class Actor {
     this.deathday = json.deathday;
     this.actorBiography = json.biography;
   }
+  get actorGender() {
+    return this.gender === 1 ? "Female" : "Male"
+  }
+  get actorDeathday() {
+    return this.death ? this.death : "No information available"
+  }
+  get biography() {
+    return this.actorBiography ? this.actorBiography : "No information available";
+  }
   get profilePath() {
     return this.picOfActor ? Actor.BACKDROP_BASE_URL + this.picOfActor : "";
   }
@@ -332,7 +388,6 @@ class Actors {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {
     this.id = json.id;
-    console.log(this.id);
     this.name = json.name;
     this.backdropPath = json.profile_path;
     this.character = json.character;
@@ -342,6 +397,19 @@ class Actors {
     return this.backdropPath
       ? Actors.BACKDROP_BASE_URL + this.backdropPath
       : "";
+  }
+}
+
+class MoviesParticipatedIn {
+  static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
+  constructor(json) {
+    this.id = json.id;
+    this.title = json.title;
+    this.backdropPath = json.poster_path;
+    this.character = json.character;
+  }
+  get backdropUrl() {
+    return this.backdropPath ? Crew.BACKDROP_BASE_URL + this.backdropPath : "";
   }
 }
 
@@ -369,6 +437,7 @@ class Crew {
 class SimilarMovies {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {
+    this.id = json.id;
     this.title = json.title;
     this.backdropPath = json.poster_path;
   }
