@@ -3,31 +3,48 @@
 class APIService {
   static TMDB_BASE_URL = "https://api.themoviedb.org/3";
   static async fetchMovies(arg) {
-    console.log(arg);
     const url = APIService._constructUrl(`movie/${arg}`);
     const response = await fetch(url);
     const data = await response.json();
-    return data.results.map((movie) => new Movie(movie));
+    console.log(data);
+    if (data.results) {
+      return data.results.map((movie) => new Movie(movie));
+    } else {
+      return [new Movie(data)];
+    }
   }
-  static async fetchMoviesPopular() {
-    const url = APIService._constructUrl(`movie/upcoming`);
+  //https://api.themoviedb.org/3/search/multi?api_key=<<api_key>>&query=string
+  //search/multi
+  static async fetchSearchResult(input) {
+    const url = APIService._constructUrl(`search/multi`) + `&query=${input}`;
     const response = await fetch(url);
-    const data = await response.json(); 
-    console.log(data)
+    const data = await response.json();
+    console.log(data);
+    return data.results.map((result) => new Movie(result));
+  }
+
+  static async fetchMoviesByGenres(id) {
+    const url = APIService._constructUrl(`discover/movie`) + `&with_genres=${id}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
     return data.results.map((movie) => new Movie(movie));
   }
+
   static async popularActors() {
     const url = APIService._constructUrl(`person/popular`); //use this later for Actor list page
     const response = await fetch(url);
     const data = await response.json();
     return data.results.map((movie) => new Actors(movie));
   }
+
   static async fetchMovie(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}`);
     const response = await fetch(url);
     const data = await response.json();
     return new Movie(data);
   }
+
   static async fetchActors(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}/credits`);
     const response = await fetch(url);
@@ -38,6 +55,7 @@ class APIService {
     }
     return arrWithActorInfo;
   }
+
   static async fetchCrew(movieId) {
     const url = APIService._constructUrl(`movie/${movieId}/credits`);
     const response = await fetch(url);
@@ -67,6 +85,7 @@ class APIService {
     console.log(data);
     return new Actor(data);
   }
+
   static async fetchMoviesActorParticipated (personId) {
     const url = APIService._constructUrl(`person/${personId}/movie_credits`);
     const response = await fetch(url);
@@ -82,6 +101,7 @@ class APIService {
     }
     return arrWithParticipatedMovies;
   }
+
   static _constructUrl(path) {
     return `${this.TMDB_BASE_URL}/${path}?api_key=${atob(
       "NTQyMDAzOTE4NzY5ZGY1MDA4M2ExM2M0MTViYmM2MDI="

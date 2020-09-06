@@ -28,6 +28,9 @@ class ActorSection {
         ActorPage.container.append(participatedMovieImg, participatedMovieTitle);
         participatedMovieImg.addEventListener("click", function () {
           MoviesInfo.run(participatedMovies[i]);
+          setTimeout (function () { 
+            window.scrollTo(0,0); 
+          }, 400)
         });
       }
       

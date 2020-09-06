@@ -1,9 +1,17 @@
 class MovieSection {
   static renderMovie(movie, crew) {
-    // console.log(crew);
-    // console.log(similarMovies);
+// CSS
+  //   document.body.style.backgroundImage = `
+  //   linear-gradient(180deg, rgba(68,68,68,0.8729866946778712) 0%, rgba(6,6,8,0.7469362745098039) 0%, rgba(0,0,0,1) 24%),
+  //   url(${movie.backdropUrl})
+  //   `
+  
+
+  // document.body.style.backgroundSize = "contain"
+  // document.body.style.backgroundRepeat = "no-repeat"
     MoviePage.container.innerHTML = `
-      <div class="row">
+    <div class = "backgroundImage">
+      <div class="row"> 
         <div class="col-md-4">
           <img id="movie-backdrop" src=${movie.backdropUrl}> 
         </div>
@@ -19,7 +27,15 @@ class MovieSection {
           <p id="movie-overview">${movie.overview}</p>
         </div>
       </div>
+    </div>
     `;
+    // const backgroundImage = document.querySelector(".backgroundImage")
+    // backgroundImage.style.backgroundImage = `
+    // linear-gradient(180deg, rgba(68,68,68,0.7497373949579832) 0%, rgba(6,6,8,0.7665441176470589) 41%, rgba(0,0,0,1) 100%),
+    // url(${movie.backdropUrl})
+    // `
+    // backgroundImage.style.backgroundSize = "cover"
+    // backgroundImage.style.backgroundRepeat = "no-repeat"
     for (const crewMember of crew) {
       if (crewMember.directorName) {
         if (crewMember.backdropUrl) {

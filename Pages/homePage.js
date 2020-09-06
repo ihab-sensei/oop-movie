@@ -8,30 +8,23 @@ class HomePage {
       const movieImage = document.createElement("img");
       movieImage.src = `${movie.backdropUrl}`;
       const movieTitle = document.createElement("h3");
-      movieTitle.textContent = `${movie.title}`;
+      movieTitle.textContent = `${movie.title ? movie.title : movie.name}`;
       movieImage.addEventListener("click", function () {
-        MoviesInfo.run(movie);
+        if (movie.title) {
+          MoviesInfo.run(movie);
+        } else {
+          ActorInfo.run(movie)
+        }
+        setTimeout (function () { 
+          window.scrollTo(0,0); 
+        }, 400)
       });
       movieDiv.appendChild(movieTitle);
       movieDiv.appendChild(movieImage);
       this.container.appendChild(movieDiv);
     });
   }
-  // static renderMoviesPopular(movies) {
-  //   // movie is a single object from the array of objects "movies"
-  //   movies.forEach((movie) => {
-  //     const movieDiv = document.createElement("div");
-  //     const movieImage = document.createElement("img");
-  //     movieImage.src = `${movie.backdropUrl}`;
-  //     const movieTitle = document.createElement("h3");
-  //     movieTitle.textContent = `${movie.title}`;
-  //     movieImage.addEventListener("click", function () {
-  //       MoviesInfo.run(movie);
-  //     });
-  //     movieDiv.appendChild(movieTitle);
-  //     movieDiv.appendChild(movieImage);
-  //     this.container.appendChild(movieDiv);
-  //   });
-  // }
+
+ 
 }
 

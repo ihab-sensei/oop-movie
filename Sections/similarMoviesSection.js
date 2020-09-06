@@ -10,8 +10,10 @@ class SimilarMoviesSection {
           similarMovieTitle.innerText = similarMovies[i].title;
           MoviePage.container.append(similarMovieImg, similarMovieTitle);
           similarMovieImg.addEventListener("click", function () {
-            console.log(similarMovies[i]);
             MoviesInfo.run(similarMovies[i]);
+            setTimeout (function () { 
+              window.scrollTo(0,0); 
+            }, 400)
           });
           
         }

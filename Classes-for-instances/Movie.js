@@ -2,6 +2,7 @@ class Movie {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {
     this.id = json.id;
+    this.name = json.name; //for search actor
     this.title = json.title;
     this.language = json.original_language;
     this.genres = json.genres;
@@ -12,6 +13,7 @@ class Movie {
     this.productionCompany = json.production_companies;
     this.rating = json.vote_average;
     this.voteCount = json.vote_count;
+    this.picOfActor = json.profile_path;
   }
 
   get grabGenres() {
@@ -41,6 +43,13 @@ class Movie {
     return companyNames;
   }
   get backdropUrl() {
-    return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
+    if (this.backdropPath) {
+     return Movie.BACKDROP_BASE_URL + this.backdropPath 
+    } else if (this.picOfActor){
+     return Movie.BACKDROP_BASE_URL + this.picOfActor
+    } else {
+     return "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png"
+    }
+    // return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
   }
 }
