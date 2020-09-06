@@ -5,7 +5,7 @@ class MovieSection {
   //   linear-gradient(180deg, rgba(68,68,68,0.8729866946778712) 0%, rgba(6,6,8,0.7469362745098039) 0%, rgba(0,0,0,1) 24%),
   //   url(${movie.backdropUrl})
   //   `
-  
+  //linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.49763655462184875) 8%, rgba(0,0,0,0.6713060224089635) 15%, rgba(0,0,0,0.8757878151260504) 25%, rgba(0,0,0,0.9766281512605042) 33%);
 
   // document.body.style.backgroundSize = "contain"
   // document.body.style.backgroundRepeat = "no-repeat"
