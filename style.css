@@ -1,6 +1,11 @@
-
+:root {
+  --backgroundColor:  #101820;
+  --navbarColor: rgba(0,133,95,1);
+  --backgroundColor2:  #011627;
+  --navbarColor2: rgba(0,133,95,1);
+}
 body {
-  background-color: #101820;
+  background-color: var(--backgroundColor2);
   color: rgb(255, 249, 249);
  
 }
@@ -25,7 +30,7 @@ img {
   max-width: 100%;
 }
 .navbar {
-  background: linear-gradient(180deg, rgba(0,133,95,1) 0%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(180deg, var(--navbarColor2) 0%, rgba(0,0,0,0) 100%);
 }
 .actors-container {
   display: flex;
@@ -167,7 +172,6 @@ h2 span {
   vertical-align: middle;
 }
 body {
-  background: #24282f;
   font-family: 'Alegreya Sans';
 }
 .wrapper {

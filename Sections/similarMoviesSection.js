@@ -17,9 +17,9 @@ class SimilarMoviesSection {
           MoviePage.container.appendChild(mainDiv)
           similarMovieImg.addEventListener("click", function () {
             MoviesInfo.run(similarMovies[i]);
-            setTimeout (function () { 
-              window.scrollTo(0,0); 
-            }, 400)
+            // setTimeout (function () { 
+            //   window.scrollTo(0,0); 
+            // }, 400)
           });
           
         }

@@ -35,9 +35,9 @@ class ActorSection {
         ActorPage.container.appendChild(mainDiv)
         participatedMovieImg.addEventListener("click", function () {
           MoviesInfo.run(participatedMovies[i]);
-          setTimeout (function () { 
-            window.scrollTo(0,0); 
-          }, 400)
+          // setTimeout (function () { 
+          //   window.scrollTo(0,0); 
+          // }, 400)
         });
       }
       
