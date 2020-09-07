@@ -16,6 +16,7 @@ class Movie {
     this.voteCount = json.vote_count;
     this.picOfActor = json.profile_path;
     this.json = json
+    console.log(json)
   }
 
   get trailerKey() {
@@ -61,3 +62,5 @@ class Movie {
     return this.posterPath ? Movie.BACKDROP_BASE_URL + this.posterPath : ""
   }
 }
+
+// make the genres render based on an object

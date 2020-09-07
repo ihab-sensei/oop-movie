@@ -6,15 +6,13 @@ class APIService {
     const url = APIService._constructUrl(`movie/${arg}`);
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     if (data.results) {
       return data.results.map((movie) => new Movie(movie));
     } else {
       return [new Movie(data)];
     }
   }
-  //https://api.themoviedb.org/3/search/multi?api_key=<<api_key>>&query=string
-  //search/multi
+
   static async fetchSearchResult(input) {
     const url = APIService._constructUrl(`search/multi`) + `&query=${input}`;
     const response = await fetch(url);
