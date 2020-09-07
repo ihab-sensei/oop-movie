@@ -19,17 +19,20 @@ class HomePage {
       cards.className = "cards";
       figure.className = "card";
       //let newArrForGenres = [];
-      for (let i = 0; i < movie.genres.length; i++) {
-        const badge = document.createElement("span")
-        badge.classList.add(
-          "badge",
-          "badge-pill",
-          "badge-danger"
-        );
-        badge.innerText = genres[movie.genres[i]]
-        figCaption.appendChild(badge)
-        //newArrForGenres.push(genres[movie.genres[i]]);
+      if (movie.genres) {
+        for (let i = 0; i < movie.genres.length; i++) {
+          const badge = document.createElement("span")
+          badge.classList.add(
+            "badge",
+            "badge-pill",
+            "badge-danger"
+          );
+          badge.innerText = genres[movie.genres[i]]
+          figCaption.appendChild(badge)
+          //newArrForGenres.push(genres[movie.genres[i]]);
+        }
       }
+      
       const badge = document.createElement("span")
       const p = document.createElement("p")
       badge.classList.add(
