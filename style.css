@@ -7,14 +7,13 @@
 body {
   background-color: var(--backgroundColor2);
   color: rgb(255, 249, 249);
- 
 }
 img {
   max-width: 100%;
 }
 
 #movie-backdrop {
-  width: 100%;
+  width: 75%;
 }
 
 .container {
@@ -29,6 +28,7 @@ img {
   width: 11rem;
   max-width: 100%;
 }
+
 .navbar {
   background: linear-gradient(180deg, var(--navbarColor2) 0%, rgba(0,0,0,0) 100%);
 }
@@ -58,7 +58,7 @@ img {
   width: 200px;
   margin-right: 20px;
 }
-.singleActorPic{
+.singleActorPic {
   width: 200px;
   margin-right: 20px;
 }
@@ -66,7 +66,9 @@ img {
   cursor: pointer;
 }
 
-h4,h3,h1 {
+h4,
+h3,
+h1 {
   color: #feac41;
   background-color: #10182091;
   display: inline-block;
@@ -81,6 +83,12 @@ h4,h3,h1 {
 
 .round {
   border-radius: 10%;
+}
+
+@media only screen and (max-width: 767px) {
+  #movie-backdrop {
+    width: 86%;
+  }
 }
 
 

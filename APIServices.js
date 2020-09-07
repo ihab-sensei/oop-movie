@@ -22,7 +22,8 @@ class APIService {
   }
 
   static async fetchMoviesByGenres(id) {
-    const url = APIService._constructUrl(`discover/movie`) + `&with_genres=${id}`;
+    const url =
+      APIService._constructUrl(`discover/movie`) + `&with_genres=${id}`;
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
@@ -37,7 +38,9 @@ class APIService {
   }
 
   static async fetchMovie(movieId) {
-    const url = APIService._constructUrl(`movie/${movieId}`) + "&append_to_response=videos";
+    const url =
+      APIService._constructUrl(`movie/${movieId}`) +
+      "&append_to_response=videos";
     const response = await fetch(url);
     const data = await response.json();
     console.log(data);
@@ -85,7 +88,7 @@ class APIService {
     return new Actor(data);
   }
 
-  static async fetchMoviesActorParticipated (personId) {
+  static async fetchMoviesActorParticipated(personId) {
     const url = APIService._constructUrl(`person/${personId}/movie_credits`);
     const response = await fetch(url);
     const data = await response.json();

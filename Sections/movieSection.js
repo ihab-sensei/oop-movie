@@ -9,16 +9,17 @@ class MovieSection {
 
   // document.body.style.backgroundSize = "contain"
   // document.body.style.backgroundRepeat = "no-repeat"
-  MoviePage.container.className = "container w-75"
+  MoviePage.container.className = "container"
     MoviePage.container.innerHTML = `
     <div class = "backgroundImage m-3 shadow-lg">
       <div class="row"> 
         <div class="col-md-4">
-          <img id="movie-backdrop" class="ml-3 mt-3 w-75" src=${movie.posterUrl}> 
+          <img id="movie-backdrop" class="ml-3 mt-3" src=${movie.posterUrl}> 
         </div>
         <div class="col-md-7 ml-2">
           <h1 id="movie-title" class="display-5">${movie.title}</h1>
-          <p id="genres">${movie.grabGenres}</p>
+          <p id="genres-names">
+          </p>
           <p id="movie-release-date">${movie.releaseDate}</p>
           <p id="movie-release-date">${movie.language}</p>
           <p id="movie-runtime">${movie.runtime}</p>
@@ -29,7 +30,7 @@ class MovieSection {
         </div>
       </div>
     </div>
-    <div class="embed-responsive w-auto embed-responsive-21by9 m-3">
+    <div class="embed-responsive w-auto embed-responsive-16by9 m-3">
       <iframe width="560" height="315" src="https://www.youtube.com/embed/${movie.trailerKey}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <div>
     `;
@@ -40,6 +41,17 @@ class MovieSection {
     `
     backgroundImage.style.backgroundSize = "cover"
     backgroundImage.style.backgroundRepeat = "no-repeat"
+    const genres = document.querySelector("#genres-names")
+    for (const genre of movie.genresStrings) {
+      const badge = document.createElement("span")
+        badge.classList.add(
+        "badge",
+        "badge-pill",
+        "badge-warning"
+      );
+      badge.innerText = genre
+      genres.appendChild(badge)
+    }
     for (const crewMember of crew) {
       if (crewMember.directorName) {
         const voteCount = document.querySelector("#movie-votecount")

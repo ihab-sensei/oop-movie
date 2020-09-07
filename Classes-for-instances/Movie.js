@@ -5,29 +5,32 @@ class Movie {
     this.name = json.name; //for search actor
     this.title = json.title;
     this.language = json.original_language;
-    this.genres = json.genres;
+    this.genres = json.genre_ids;
+    this.genresNames = json.genres
     this.releaseDate = json.release_date;
     this.runtime = json.runtime + " minutes";
     this.overview = json.overview;
     this.backdropPath = json.backdrop_path;
-    this.posterPath = json.poster_path
+    this.posterPath = json.poster_path;
     this.productionCompany = json.production_companies;
     this.rating = json.vote_average;
     this.voteCount = json.vote_count;
     this.picOfActor = json.profile_path;
-    this.json = json
-    console.log(json)
+    this.json = json;
   }
 
   get trailerKey() {
-    return this.json.videos.results[0].key
+    return this.json.videos.results[0] ? this.json.videos.results[0].key : "";
   }
-  get grabGenres() {
-    let genres = "";
-    for (const genre of this.genres) {
-      genres += genre.name + " ";
+  get genresStrings() {
+    if (this.genresNames) {
+      const genres = []
+      //const genres = document.querySelector("#genres")
+      for (let i = 0; i < this.genresNames.length; i++) {
+      genres.push(this.genresNames[i].name)
+      }
+      return genres
     }
-    return genres;
   }
   get companyLogo() {
     let logoPic = [];
@@ -50,16 +53,16 @@ class Movie {
   }
   get backdropUrl() {
     if (this.backdropPath) {
-     return Movie.BACKDROP_BASE_URL + this.backdropPath 
-    } else if (this.picOfActor){
-     return Movie.BACKDROP_BASE_URL + this.picOfActor
+      return Movie.BACKDROP_BASE_URL + this.backdropPath;
+    } else if (this.picOfActor) {
+      return Movie.BACKDROP_BASE_URL + this.picOfActor;
     } else {
-     return "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png"
+      return "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
     }
     // return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
   }
   get posterUrl() {
-    return this.posterPath ? Movie.BACKDROP_BASE_URL + this.posterPath : ""
+    return this.posterPath ? Movie.BACKDROP_BASE_URL + this.posterPath : "";
   }
 }
 

@@ -10,25 +10,37 @@ class HomePage {
     // movie is a single object from the array of objects "movies"
     this.container.innerHTML = "";
     movies.forEach((movie) => {
-      console.log(movie);
       const movieDiv = document.createElement("div");
       const wrapper = document.createElement("div");
       const cards = document.createElement("div");
       const figure = document.createElement("figure");
       const figCaption = document.createElement("figcaption");
-      const badge = document.createElement("span")
-      badge.classList.add(
-        "badge",
-        "badge-pill",
-        "badge-danger"
-      );
-      badge.innerText = movie.rating
-      figCaption.appendChild(badge)
-      //<span class="badge badge-pill badge-danger">Danger</span>
       wrapper.className = "wrapper";
       cards.className = "cards";
       figure.className = "card";
-      //figCaption.innerText = movie.rating;
+      //let newArrForGenres = [];
+      for (let i = 0; i < movie.genres.length; i++) {
+        const badge = document.createElement("span")
+        badge.classList.add(
+          "badge",
+          "badge-pill",
+          "badge-danger"
+        );
+        badge.innerText = genres[movie.genres[i]]
+        figCaption.appendChild(badge)
+        //newArrForGenres.push(genres[movie.genres[i]]);
+      }
+      const badge = document.createElement("span")
+      const p = document.createElement("p")
+      badge.classList.add(
+        "badge",
+        "badge-pill",
+        "badge-warning"
+      );
+      badge.innerText = movie.rating
+      p.appendChild(badge)
+      figCaption.appendChild(p)
+      //figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
       movieDiv.classList.add(
         "m-4",
         "w-25",
