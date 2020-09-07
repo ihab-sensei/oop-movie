@@ -5,7 +5,7 @@ class App {
     const movies = await APIService.fetchMovies(arg);
     // const moviesPopular = await APIService.fetchMoviesPopular();
     // console.log(movies);
-    
+
     HomePage.renderMovies(movies);
   }
 
@@ -15,14 +15,13 @@ class App {
   // }
 }
 
-const popular = document.querySelector("#popular")
-popular.addEventListener("click", e => {
-  console.log("hello");
-  App.run("popular")
-})
-document.addEventListener("DOMContentLoaded", e =>App.run("now_playing"))
+const popular = document.querySelector("#popular");
+popular.addEventListener("click", (e) => {
+  // console.log("hello");
+  App.run("popular");
+});
+document.addEventListener("DOMContentLoaded", (e) => App.run("now_playing"));
 //document.addEventListener("DOMContentLoaded", App.runPopular);
- 
 
 // http://image.tmdb.org/t/p/w780/27C77ni5XmlgkJVbomXPC4tHWVd.jpg
 
