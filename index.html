@@ -10,23 +10,23 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Movie Website</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <li class="nav-item ">
+              <a class="nav-link" id="homePage" href="#">Home<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
+              <a class="nav-link" href="#" id="actorList">Actors</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Filter Movies
+                Movies
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item" id="popular" href="#">Popular</a>
@@ -40,17 +40,35 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Genres
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Sci-Fi</a> 
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                <div class="dropdown-menu" id="genres" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#" id="action">Action</a>
+                  <a class="dropdown-item" href="#" id="sci-fi">Sci-Fi</a> 
+                  <a class="dropdown-item" href="#" id="adventure">Adventure</a> 
+                  <a class="dropdown-item" href="#" id="animation">Animation</a> 
+                  <a class="dropdown-item" href="#" id="comedy">Comedy</a> 
+                  <a class="dropdown-item" href="#" id="crime">Crime</a> 
+                  <a class="dropdown-item" href="#" id="documentary">Documentary</a> 
+                  <a class="dropdown-item" href="#" id="drama">Drama</a> 
+                  <a class="dropdown-item" href="#" id="family">Family</a> 
+                  <a class="dropdown-item" href="#" id="fantasy">Fantasy</a> 
+                  <a class="dropdown-item" id="history" href="#">History</a> 
+                  <a class="dropdown-item" id="horror" href="#">Horror</a> 
+                  <a class="dropdown-item" id="music" href="#">Music</a>
+                  <a class="dropdown-item" id="mystery" href="#">Mystery</a>
+                  <a class="dropdown-item" id="romance" href="#">Romance</a>
+                  <a class="dropdown-item" id="tv-movie" href="#">TV Movie</a>
+                  <a class="dropdown-item" id="thriller" href="#">Thriller</a>
+                  <a class="dropdown-item" id="war" href="#">War</a>
+                  <a class="dropdown-item" id="western" href="#">Western</a>
                 </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#" id="about">About</a>
               </li>
           </ul>
           <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <input id="search-input" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button id="search-btn" class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
           </form>
         </div>
       </nav>
@@ -73,8 +91,10 @@
     <script src="./Assiging-info/moviesInfo.js"></script>
     <script src="./Assiging-info/actorInfo.js"></script>
     <script src="./Pages/homePage.js"></script>
+    <script src="./Pages/actorsPage.js"></script>
     <script src="./Pages/moviePage.js"></script>
     <script src="./Pages/actorPage.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
     <script src="./index.js"></script>
 </body>
 

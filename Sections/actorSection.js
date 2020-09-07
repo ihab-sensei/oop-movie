@@ -19,15 +19,25 @@ class ActorSection {
     //element.insertAdjacentHTML('afterend', text)
     
     if (participatedMovies.length > 0) {
+      const mainDiv = document.createElement("div")
+      mainDiv.classList.add("d-flex", "justify-content-around", "flex-row", "flex-wrap")
       for (let i = 0; i < participatedMovies.length; i++) {
+        const div = document.createElement("div")
+        div.className = "clickable"
         const participatedMovieImg = document.createElement("img");
         participatedMovieImg.src = participatedMovies[i].backdropUrl
         participatedMovieImg.className = "participatedMovie";
         const participatedMovieTitle = document.createElement("p");
         participatedMovieTitle.innerText = participatedMovies[i].title;
-        ActorPage.container.append(participatedMovieImg, participatedMovieTitle);
+        participatedMovieTitle.style.maxWidth = "13rem"
+        div.append(participatedMovieImg, participatedMovieTitle);
+        mainDiv.appendChild(div)
+        ActorPage.container.appendChild(mainDiv)
         participatedMovieImg.addEventListener("click", function () {
           MoviesInfo.run(participatedMovies[i]);
+          setTimeout (function () { 
+            window.scrollTo(0,0); 
+          }, 400)
         });
       }
       

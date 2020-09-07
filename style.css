@@ -1,3 +1,7 @@
+body {
+  background-color: #101820;
+  color: rgb(255, 249, 249);
+}
 img {
   max-width: 100%;
 }
@@ -19,6 +23,13 @@ img {
   max-width: 100%;
 }
 
+.navbar {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 133, 95, 1) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
 .actors-container {
   display: flex;
   justify-content: space-around;
@@ -45,7 +56,25 @@ img {
   width: 200px;
   margin-right: 20px;
 }
-.singleActorPic{
+.singleActorPic {
   width: 200px;
   margin-right: 20px;
+}
+.clickable:hover {
+  cursor: pointer;
+}
+
+h4,
+h3,
+h1 {
+  color: #feac41;
+  background-color: #10182091;
+  display: inline-block;
+  border-radius: 30px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.movie-card {
+  min-width: 150px;
 }

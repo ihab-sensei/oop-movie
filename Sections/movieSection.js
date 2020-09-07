@@ -1,14 +1,23 @@
 class MovieSection {
   static renderMovie(movie, crew) {
-    // console.log(crew);
-    // console.log(similarMovies);
+// CSS
+    // document.body.style.backgroundImage = `
+    // linear-gradient(180deg, rgba(68,68,68,0.8729866946778712) 0%, rgba(6,6,8,0.7469362745098039) 0%, rgba(0,0,0,1) 24%),
+    // url(${movie.backdropUrl})
+    // `
+  //linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.49763655462184875) 8%, rgba(0,0,0,0.6713060224089635) 15%, rgba(0,0,0,0.8757878151260504) 25%, rgba(0,0,0,0.9766281512605042) 33%);
+
+  // document.body.style.backgroundSize = "contain"
+  // document.body.style.backgroundRepeat = "no-repeat"
+  MoviePage.container.className = "container w-75"
     MoviePage.container.innerHTML = `
-      <div class="row">
+    <div class = "backgroundImage m-3 shadow-lg">
+      <div class="row"> 
         <div class="col-md-4">
-          <img id="movie-backdrop" src=${movie.backdropUrl}> 
+          <img id="movie-backdrop" class="ml-3 mt-3 w-75" src=${movie.posterUrl}> 
         </div>
         <div class="col-md-8">
-          <h2 id="movie-title">${movie.title}</h2>
+          <h1 id="movie-title" class="display-5">${movie.title}</h1>
           <p id="genres">${movie.grabGenres}</p>
           <p id="movie-release-date">${movie.releaseDate}</p>
           <p id="movie-release-date">${movie.language}</p>
@@ -19,7 +28,18 @@ class MovieSection {
           <p id="movie-overview">${movie.overview}</p>
         </div>
       </div>
+    </div>
+    <div class="embed-responsive w-auto embed-responsive-21by9 m-3">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/${movie.trailerKey}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div>
     `;
+    const backgroundImage = document.querySelector(".backgroundImage")
+    backgroundImage.style.backgroundImage = `
+    linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.7973564425770308) 63%, rgba(0,0,0,1) 84%),
+    url(${movie.backdropUrl})
+    `
+    backgroundImage.style.backgroundSize = "cover"
+    backgroundImage.style.backgroundRepeat = "no-repeat"
     for (const crewMember of crew) {
       if (crewMember.directorName) {
         if (crewMember.backdropUrl) {
@@ -35,17 +55,18 @@ class MovieSection {
         break;
       }
     }
+    const mainDiv = document.createElement("div")
     for (let i = 0; i < movie.companyName.length; i++) {
       const div = document.createElement("div");
       const h5 = document.createElement("h5");
       const img = document.createElement("img");
-
+      mainDiv.classList.add("d-flex", "justify-content-around", "flex-row", "flex-wrap")
       h5.innerText = movie.companyName[i];
       img.classList = "smol";
       img.src = movie.companyLogo[i];
-
       div.append(h5, img);
-      MoviePage.container.appendChild(div);
+      mainDiv.appendChild(div)
+      MoviePage.container.appendChild(mainDiv);
     }
 
     

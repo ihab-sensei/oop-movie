@@ -4,4 +4,8 @@ class ActorInfo {
     const moviesParticipatedInData = await APIService.fetchMoviesActorParticipated(person.id);
     ActorPage.renderActorSection(actorData, moviesParticipatedInData);
   }
+  static async runPopularActors(person) {
+    const actorsData = await APIService.popularActors(person);
+    ActorsPages.renderActorsSection(actorsData);
+  }
 }

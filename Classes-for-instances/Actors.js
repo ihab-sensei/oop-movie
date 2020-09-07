@@ -7,6 +7,9 @@ class Actors {
     this.character = json.character;
   }
 
+  // get hasIdOrNot() {
+  //   return 
+  // }
   get backdropUrl() {
     return this.backdropPath
       ? Actors.BACKDROP_BASE_URL + this.backdropPath
