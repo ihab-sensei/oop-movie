@@ -10,7 +10,6 @@ class HomePage {
     // movie is a single object from the array of objects "movies"
     this.container.innerHTML = "";
     movies.forEach((movie) => {
-      console.log(movie);
       const movieDiv = document.createElement("div");
       const wrapper = document.createElement("div");
       const cards = document.createElement("div");
@@ -19,7 +18,12 @@ class HomePage {
       wrapper.className = "wrapper";
       cards.className = "cards";
       figure.className = "card";
-      figCaption.innerText = movie.rating;
+      let newArrForGenres = [];
+      console.log(movie.genres);
+      for (let i = 0; i < movie.genres.length; i++) {
+        newArrForGenres.push(genres[movie.genres[i]]);
+      }
+      figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
       movieDiv.classList.add(
         "m-4",
         "w-25",
