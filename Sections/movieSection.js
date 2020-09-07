@@ -16,7 +16,7 @@ class MovieSection {
         <div class="col-md-4">
           <img id="movie-backdrop" class="ml-3 mt-3 w-75" src=${movie.posterUrl}> 
         </div>
-        <div class="col-md-8">
+        <div class="col-md-7 ml-2">
           <h1 id="movie-title" class="display-5">${movie.title}</h1>
           <p id="genres">${movie.grabGenres}</p>
           <p id="movie-release-date">${movie.releaseDate}</p>
@@ -42,16 +42,18 @@ class MovieSection {
     backgroundImage.style.backgroundRepeat = "no-repeat"
     for (const crewMember of crew) {
       if (crewMember.directorName) {
-        if (crewMember.backdropUrl) {
-          const div = document.createElement("div")
-          const directorImg = document.createElement("img");
-          directorImg.src = crewMember.backdropUrl;
-          directorImg.className = "directorPic";
-          const directorName = document.createElement("p");
-          directorName.innerText = crewMember.directorName;
-          div.append(directorImg, directorName);
-          MoviePage.container.appendChild(div);
-        }
+        const voteCount = document.querySelector("#movie-votecount")
+        console.log(voteCount);
+        const div = document.createElement("div")
+        //const directorImg = document.createElement("img");
+        //directorImg.src = crewMember.backdropUrl;
+        //directorImg.className = "directorPic";
+        const directorName = document.createElement("p");
+        directorName.innerText = crewMember.directorName;
+        div.append(directorName);
+      //voteCount.insertAdjacentHTML("afterend", <p>Director: ${crewMember.directorName}</p>)
+        //MoviePage.container.appendChild(div);
+        
         break;
       }
     }

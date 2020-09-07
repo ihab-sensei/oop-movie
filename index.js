@@ -21,6 +21,9 @@ class App {
     const searchResult = await APIService.fetchSearchResult(string);
     HomePage.renderMovies(searchResult);
   }
+  static runAboutPage() {
+    AboutPage.renderAboutPage();
+  }
 }
 //ActorsPage.renderActorsSection(person)
 const topRated = document.querySelector("#topRated");
@@ -33,6 +36,11 @@ const actorList = document.querySelector("#actorList");
 const homePage = document.querySelector("#homePage");
 const searchBtn = document.querySelector("#search-btn");
 const searchInput = document.querySelector("#search-input");
+const aboutPage = document.querySelector("#about");
+
+aboutPage.addEventListener("click", (e) => {
+  App.runAboutPage();
+});
 
 searchBtn.addEventListener("click", (e) => {
   e.preventDefault();

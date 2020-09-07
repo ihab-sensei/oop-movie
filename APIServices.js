@@ -6,7 +6,6 @@ class APIService {
     const url = APIService._constructUrl(`movie/${arg}`);
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     if (data.results) {
       return data.results.map((movie) => new Movie(movie));
     } else {

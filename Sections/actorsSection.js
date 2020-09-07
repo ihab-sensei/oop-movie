@@ -14,6 +14,7 @@ class ActorsSection {
       const h4 = document.createElement("h4");
       const small = document.createElement("p");
       img.src = actor.backdropUrl;
+      img.className = "round"
       singleActor.classList.add("actor-photo", "clickable")
       h4.innerText = actor.name;
       small.innerText = `As ${actor.character}`
