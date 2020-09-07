@@ -19,10 +19,12 @@ class HomePage {
       cards.className = "cards";
       figure.className = "card";
       let newArrForGenres = [];
-      console.log(movie.genres);
-      for (let i = 0; i < movie.genres.length; i++) {
-        newArrForGenres.push(genres[movie.genres[i]]);
+      if (movie.genres) {
+        for (let i = 0; i < movie.genres.length; i++) {
+          newArrForGenres.push(genres[movie.genres[i]]);
+        }
       }
+
       figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
       movieDiv.classList.add(
         "m-4",
