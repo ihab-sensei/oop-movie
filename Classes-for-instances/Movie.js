@@ -10,12 +10,17 @@ class Movie {
     this.runtime = json.runtime + " minutes";
     this.overview = json.overview;
     this.backdropPath = json.backdrop_path;
+    this.posterPath = json.poster_path
     this.productionCompany = json.production_companies;
     this.rating = json.vote_average;
     this.voteCount = json.vote_count;
     this.picOfActor = json.profile_path;
+    this.json = json
   }
 
+  get trailerKey() {
+    return this.json.videos.results[0].key
+  }
   get grabGenres() {
     let genres = "";
     for (const genre of this.genres) {
@@ -51,5 +56,8 @@ class Movie {
      return "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png"
     }
     // return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
+  }
+  get posterUrl() {
+    return this.posterPath ? Movie.BACKDROP_BASE_URL + this.posterPath : ""
   }
 }

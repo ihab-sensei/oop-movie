@@ -4,7 +4,7 @@ class ActorsSection {
     const actorsContainer = document.createElement("div");
     const header = document.createElement("h3");
     header.innerText = "Actors:"
-    actorsContainer.className = "actors-container";
+    actorsContainer.classList.add("d-flex", "justify-content-around", "flex-wrap")
     MoviePage.container.appendChild(header);
     for (const actor of actors) {
       // console.log(actor);
@@ -12,11 +12,11 @@ class ActorsSection {
       const singleActor = document.createElement("div");
       const img = document.createElement("img");
       const h4 = document.createElement("h4");
-      const small = document.createElement("mark");
+      const small = document.createElement("p");
       img.src = actor.backdropUrl;
-      singleActor.classList = "actor-photo";
+      singleActor.classList.add("actor-photo", "clickable")
       h4.innerText = actor.name;
-      small.innerText = "-" + actor.character;
+      small.innerText = `As ${actor.character}`
       singleActor.append(img, h4);
       if (actor.character) {
         // singleActor.append(small);

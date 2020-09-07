@@ -39,9 +39,10 @@ class APIService {
   }
 
   static async fetchMovie(movieId) {
-    const url = APIService._constructUrl(`movie/${movieId}`);
+    const url = APIService._constructUrl(`movie/${movieId}`) + "&append_to_response=videos";
     const response = await fetch(url);
     const data = await response.json();
+    console.log(data);
     return new Movie(data);
   }
 

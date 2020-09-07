@@ -2,13 +2,19 @@ class SimilarMoviesSection {
   static renderSimilarMovies(similarMovies) {
     
     if (similarMovies.length > 0) {
+      const mainDiv = document.createElement("div")
+      mainDiv.classList.add("d-flex", "justify-content-around", "flex-row", "flex-wrap")
         for (let i = 0; i < similarMovies.length; i++) {
+          const div = document.createElement("div")
+          div.className = "clickable"
           const similarMovieImg = document.createElement("img");
           similarMovieImg.src = similarMovies[i].backdropUrl;
           similarMovieImg.className = "similarMovie";
           const similarMovieTitle = document.createElement("p");
           similarMovieTitle.innerText = similarMovies[i].title;
-          MoviePage.container.append(similarMovieImg, similarMovieTitle);
+          div.append(similarMovieImg, similarMovieTitle);
+          mainDiv.appendChild(div)
+          MoviePage.container.appendChild(mainDiv)
           similarMovieImg.addEventListener("click", function () {
             MoviesInfo.run(similarMovies[i]);
             setTimeout (function () { 
