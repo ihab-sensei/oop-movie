@@ -1,8 +1,8 @@
 :root {
   --backgroundColor:  #101820;
   --navbarColor: rgba(0,133,95,1);
-  --backgroundColor2:  #011627;
-  --navbarColor2: rgba(0,133,95,1);
+  --backgroundColor2:  rgb(7, 16, 19);
+  --navbarColor2: rgb(35, 181, 211);
 }
 body {
   background-color: var(--backgroundColor2);
@@ -44,7 +44,8 @@ img {
 }
 
 .smol {
-  width: 200px;
+  width: 50px;
+  border-radius: 15px;
 }
 .directorPic {
   width: 200px;
@@ -91,7 +92,13 @@ h1 {
   }
 }
 
+ul.navbar-nav {
+  font-size: larger;
+}
 
+.about {
+  height: 100vh;
+}
 
 
 

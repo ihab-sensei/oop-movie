@@ -18,13 +18,15 @@ class MovieSection {
         </div>
         <div class="col-md-7 ml-2">
           <h1 id="movie-title" class="display-5">${movie.title}</h1>
-          <p id="genres-names">
-          </p>
-          <p id="movie-release-date">${movie.releaseDate}</p>
-          <p id="movie-release-date">${movie.language}</p>
-          <p id="movie-runtime">${movie.runtime}</p>
-          <p id="movie-rating">Rating: ${movie.rating}</p>
-          <p id="movie-votecount">Votes received: ${movie.voteCount}</p>
+          <p id="genres-names"></p>
+          <p class="h5" id="movie-release-date">${movie.releaseDate}</p>
+          <p class="h5" id="movie-release-date">${movie.language}</p>
+          <p class="h5" id="movie-runtime">${movie.runtime}</p>
+          <p class="h5" id="movie-rating">Rating: ${movie.rating}</p>
+          <p class="h5" id="movie-votecount">Votes received: ${movie.voteCount}</p>
+          <p class="h5" id="director"></p>
+          <p class="h5">Production companies:</p>
+          <div id="companies"></div>
           <h3>Overview:</h3>
           <p id="movie-overview">${movie.overview}</p>
         </div>
@@ -35,34 +37,39 @@ class MovieSection {
     <div>
     `;
     const backgroundImage = document.querySelector(".backgroundImage")
-    backgroundImage.style.backgroundImage = `
+    if (movie.backdropUrl !== "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png") {
+      backgroundImage.style.backgroundImage = `
     linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.7973564425770308) 63%, rgba(0,0,0,1) 84%),
     url(${movie.backdropUrl})
     `
     backgroundImage.style.backgroundSize = "cover"
     backgroundImage.style.backgroundRepeat = "no-repeat"
+    } else {
+      backgroundImage.style.backgroundImage = `
+    linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.7973564425770308) 90%, rgba(0,0,0,1) 84%)`
+    }
     const genres = document.querySelector("#genres-names")
     for (const genre of movie.genresStrings) {
       const badge = document.createElement("span")
         badge.classList.add(
         "badge",
         "badge-pill",
-        "badge-warning"
+        "badge-danger"
       );
       badge.innerText = genre
       genres.appendChild(badge)
     }
     for (const crewMember of crew) {
       if (crewMember.directorName) {
-        const voteCount = document.querySelector("#movie-votecount")
-        console.log(voteCount);
-        const div = document.createElement("div")
+        const director = document.querySelector("#director")
+        director.innerText= `Director: ${crewMember.directorName}`
+        //const div = document.createElement("div")
         //const directorImg = document.createElement("img");
         //directorImg.src = crewMember.backdropUrl;
         //directorImg.className = "directorPic";
-        const directorName = document.createElement("p");
-        directorName.innerText = crewMember.directorName;
-        div.append(directorName);
+        //const directorName = document.createElement("p");
+        //directorName.innerText = crewMember.directorName;
+        //div.append(directorName);
       //voteCount.insertAdjacentHTML("afterend", <p>Director: ${crewMember.directorName}</p>)
         //MoviePage.container.appendChild(div);
         
@@ -82,7 +89,8 @@ class MovieSection {
       mainDiv.appendChild(div)
       MoviePage.container.appendChild(mainDiv);
     }
-
+    const companies = document.querySelector("#companies")
+    companies.appendChild(mainDiv)
     
   }
 }

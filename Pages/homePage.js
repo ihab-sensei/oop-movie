@@ -1,6 +1,7 @@
 class HomePage {
   static container = document.getElementById("container");
   static renderMovies(movies) {
+    console.log(movies);
     container.classList.add(
       "d-flex",
       "justify-content-around",
@@ -32,8 +33,8 @@ class HomePage {
           //newArrForGenres.push(genres[movie.genres[i]]);
         }
       }
-      
-      const badge = document.createElement("span")
+      if (movie.rating) {
+        const badge = document.createElement("span")
       const p = document.createElement("p")
       badge.classList.add(
         "badge",
@@ -44,6 +45,8 @@ class HomePage {
       p.appendChild(badge)
       figCaption.appendChild(p)
       //figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
+      }
+      
       movieDiv.classList.add(
         "m-4",
         "w-25",

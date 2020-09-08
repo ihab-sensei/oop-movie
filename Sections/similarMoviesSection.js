@@ -15,6 +15,12 @@ class SimilarMoviesSection {
           div.append(similarMovieImg, similarMovieTitle);
           mainDiv.appendChild(div)
           MoviePage.container.appendChild(mainDiv)
+          ScrollReveal().reveal(div, {
+            delay: 100,
+            distance: "150%",
+            origin: "bottom",
+            opacity: null,
+          });
           similarMovieImg.addEventListener("click", function () {
             MoviesInfo.run(similarMovies[i]);
             // setTimeout (function () { 
@@ -25,7 +31,7 @@ class SimilarMoviesSection {
         }
         
     } else {
-      const similarMovieTitle = document.createElement("p");
+      const similarMovieTitle = document.createElement("h5");
       similarMovieTitle.innerText = `No similar movies!`;
       MoviePage.container.appendChild(similarMovieTitle);
     }
