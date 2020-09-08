@@ -22,7 +22,14 @@ class Movie {
   get trailerKey() {
     return this.json.videos.results[0].key;
   }
-
+  get grabGenres() {
+    let genres = "";
+    console.log(this.genres);
+    for (const genre of this.genres) {
+      genres += genre.name + " ";
+    }
+    return genres;
+  }
   get companyLogo() {
     let logoPic = [];
     for (const logo of this.productionCompany) {
