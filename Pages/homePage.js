@@ -1,6 +1,7 @@
 class HomePage {
   static container = document.getElementById("container");
   static renderMovies(movies) {
+    console.log(movies);
     container.classList.add(
       "d-flex",
       "justify-content-around",
@@ -18,14 +19,34 @@ class HomePage {
       wrapper.className = "wrapper";
       cards.className = "cards";
       figure.className = "card";
-      let newArrForGenres = [];
+      //let newArrForGenres = [];
       if (movie.genres) {
         for (let i = 0; i < movie.genres.length; i++) {
-          newArrForGenres.push(genres[movie.genres[i]]);
+          const badge = document.createElement("span")
+          badge.classList.add(
+            "badge",
+            "badge-pill",
+            "badge-danger"
+          );
+          badge.innerText = genres[movie.genres[i]]
+          figCaption.appendChild(badge)
+          //newArrForGenres.push(genres[movie.genres[i]]);
         }
       }
-
-      figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
+      if (movie.rating) {
+        const badge = document.createElement("span")
+      const p = document.createElement("p")
+      badge.classList.add(
+        "badge",
+        "badge-pill",
+        "badge-warning"
+      );
+      badge.innerText = movie.rating
+      p.appendChild(badge)
+      figCaption.appendChild(p)
+      //figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
+      }
+      
       movieDiv.classList.add(
         "m-4",
         "w-25",
@@ -47,9 +68,9 @@ class HomePage {
         } else {
           ActorInfo.run(movie);
         }
-        setTimeout(function () {
-          window.scrollTo(0, 0);
-        }, 400);
+        // setTimeout(function () {
+        //   window.scrollTo(0, 0);
+        // }, 400);
       });
       figure.append(movieImage, figCaption);
       cards.appendChild(figure);

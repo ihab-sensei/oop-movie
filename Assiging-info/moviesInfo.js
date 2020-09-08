@@ -10,5 +10,6 @@ class MoviesInfo {
       crewData,
       similarMoviesData
     );
+    window.scrollTo(0, 0)
   }
 }

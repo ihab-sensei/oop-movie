@@ -28,9 +28,15 @@ class ActorsSection {
 
       singleActor.addEventListener("click", () => {
         ActorInfo.run(actor);
-        setTimeout (function () { 
-          window.scrollTo(0,0); 
-        }, 400)
+        // setTimeout (function () { 
+        //   window.scrollTo(0,0); 
+        // }, 400)
+      });
+      ScrollReveal().reveal(singleActor, {
+        delay: 100,
+        distance: "150%",
+        origin: "bottom",
+        opacity: null,
       });
     }
     

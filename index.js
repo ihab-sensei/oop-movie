@@ -71,6 +71,7 @@ aboutPage.addEventListener("click", (e) => {
 searchBtn.addEventListener("click", (e) => {
   e.preventDefault();
   App.runSearch(searchInput.value);
+  searchInput.value = "";
 });
 
 homePage.addEventListener("click", (e) => {

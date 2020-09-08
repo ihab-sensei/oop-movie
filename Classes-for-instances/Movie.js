@@ -6,6 +6,7 @@ class Movie {
     this.title = json.title;
     this.language = json.original_language;
     this.genres = json.genre_ids;
+    this.genresNames = json.genres;
     this.releaseDate = json.release_date;
     this.runtime = json.runtime + " minutes";
     this.overview = json.overview;
@@ -16,19 +17,20 @@ class Movie {
     this.voteCount = json.vote_count;
     this.picOfActor = json.profile_path;
     this.json = json;
-    // console.log(json);
   }
 
   get trailerKey() {
-    return this.json.videos.results[0].key;
+    return this.json.videos.results[0] ? this.json.videos.results[0].key : "";
   }
-  get grabGenres() {
-    let genres = "";
-    console.log(this.genres);
-    for (const genre of this.genres) {
-      genres += genre.name + " ";
+  get genresStrings() {
+    if (this.genresNames) {
+      const genres = [];
+      //const genres = document.querySelector("#genres")
+      for (let i = 0; i < this.genresNames.length; i++) {
+        genres.push(this.genresNames[i].name);
+      }
+      return genres;
     }
-    return genres;
   }
   get companyLogo() {
     let logoPic = [];
