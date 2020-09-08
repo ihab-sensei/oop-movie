@@ -323,3 +323,9 @@ h2:after {
 .highlightedText {
   color: feac41;
 }
+.flexGitHubNames {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+}

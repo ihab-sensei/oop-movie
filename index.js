@@ -1,6 +1,5 @@
 //the API documentation site https://developers.themoviedb.org/3/
-// check how to make bold selected dropdown
-// why hashtag is being appended to url
+
 class App {
   static async run(arg = "now_playing") {
     const movies = await APIService.fetchMovies(arg);
@@ -25,7 +24,7 @@ class App {
     AboutPage.renderAboutPage();
   }
 }
-//ActorsPage.renderActorsSection(person)
+// selectors
 const topRated = document.querySelector("#topRated");
 const popular = document.querySelector("#popular");
 const releaseDate = document.querySelector("#releaseDate");
@@ -59,7 +58,7 @@ let genres = {
   10752: "War",
   37: "Western",
 };
-
+// event listeners
 genresMenu.addEventListener("click", (e) => {
   App.runGenres(e.target.id);
 });

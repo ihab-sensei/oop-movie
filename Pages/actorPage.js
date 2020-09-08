@@ -1,3 +1,5 @@
+// this class calls methods to render content on the page
+
 class ActorPage {
   static container = document.getElementById("container");
   //our new fetch service method

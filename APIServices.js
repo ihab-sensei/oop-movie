@@ -17,7 +17,6 @@ class APIService {
     const url = APIService._constructUrl(`search/multi`) + `&query=${input}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data.results.map((result) => new Movie(result));
   }
 
@@ -26,12 +25,11 @@ class APIService {
       APIService._constructUrl(`discover/movie`) + `&with_genres=${id}`;
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data.results.map((movie) => new Movie(movie));
   }
 
   static async popularActors() {
-    const url = APIService._constructUrl(`person/popular`); //use this later for Actor list page
+    const url = APIService._constructUrl(`person/popular`);
     const response = await fetch(url);
     const data = await response.json();
     return data.results.map((movie) => new Actors(movie));
@@ -43,7 +41,6 @@ class APIService {
       "&append_to_response=videos";
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return new Movie(data);
   }
 
@@ -84,7 +81,6 @@ class APIService {
     const url = APIService._constructUrl(`person/${personId}`);
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return new Actor(data);
   }
 
@@ -92,7 +88,6 @@ class APIService {
     const url = APIService._constructUrl(`person/${personId}/movie_credits`);
     const response = await fetch(url);
     const data = await response.json();
-    // console.log(data)
     const arrWithParticipatedMovies = [];
     for (let i = 0; i < 5; i++) {
       if (data.cast.length > 0) {

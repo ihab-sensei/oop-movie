@@ -1,3 +1,5 @@
+// this class has methods that render content in the page
+
 class ActorSection {
   static renderActor(person, participatedMovies) {
     ActorPage.container.innerHTML = `
@@ -27,8 +29,6 @@ class ActorSection {
       );
     }
 
-    //element.insertAdjacentHTML('afterend', text)
-
     if (participatedMovies.length > 0) {
       const mainDiv = document.createElement("div");
       mainDiv.classList.add(
@@ -52,9 +52,6 @@ class ActorSection {
         ActorPage.container.appendChild(mainDiv);
         participatedMovieImg.addEventListener("click", function () {
           MoviesInfo.run(participatedMovies[i]);
-          // setTimeout (function () {
-          //   window.scrollTo(0,0);
-          // }, 400)
         });
       }
     } else {

@@ -1,14 +1,6 @@
+// this class has methods that render content in the page
 class MovieSection {
   static renderMovie(movie, crew) {
-    // CSS
-    // document.body.style.backgroundImage = `
-    // linear-gradient(180deg, rgba(68,68,68,0.8729866946778712) 0%, rgba(6,6,8,0.7469362745098039) 0%, rgba(0,0,0,1) 24%),
-    // url(${movie.backdropUrl})
-    // `
-    //linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.49763655462184875) 8%, rgba(0,0,0,0.6713060224089635) 15%, rgba(0,0,0,0.8757878151260504) 25%, rgba(0,0,0,0.9766281512605042) 33%);
-
-    // document.body.style.backgroundSize = "contain"
-    // document.body.style.backgroundRepeat = "no-repeat"
     MoviePage.container.className = "container";
     MoviePage.container.innerHTML = `
     <div class = "backgroundImage m-3 shadow-lg">
@@ -37,6 +29,7 @@ class MovieSection {
     <div>
     `;
     const backgroundImage = document.querySelector(".backgroundImage");
+
     if (
       movie.backdropUrl !==
       "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png"
@@ -52,6 +45,7 @@ class MovieSection {
     linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.7973564425770308) 90%, rgba(0,0,0,1) 84%)`;
     }
     const genres = document.querySelector("#genres-names");
+
     for (const genre of movie.genresStrings) {
       const badge = document.createElement("span");
       badge.classList.add("badge", "badge-pill", "badge-danger");
@@ -62,16 +56,6 @@ class MovieSection {
       if (crewMember.directorName) {
         const director = document.querySelector("#director");
         director.innerText = `Director: ${crewMember.directorName}`;
-        //const div = document.createElement("div")
-        //const directorImg = document.createElement("img");
-        //directorImg.src = crewMember.backdropUrl;
-        //directorImg.className = "directorPic";
-        //const directorName = document.createElement("p");
-        //directorName.innerText = crewMember.directorName;
-        //div.append(directorName);
-        //voteCount.insertAdjacentHTML("afterend", <p>Director: ${crewMember.directorName}</p>)
-        //MoviePage.container.appendChild(div);
-
         break;
       }
     }

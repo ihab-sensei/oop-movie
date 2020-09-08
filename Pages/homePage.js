@@ -1,7 +1,7 @@
+// this class has methods that render content in the page
 class HomePage {
   static container = document.getElementById("container");
   static renderMovies(movies) {
-    console.log(movies);
     container.classList.add(
       "d-flex",
       "justify-content-around",
@@ -19,7 +19,6 @@ class HomePage {
       wrapper.className = "wrapper";
       cards.className = "cards";
       figure.className = "card";
-      //let newArrForGenres = [];
       if (movie.genres) {
         for (let i = 0; i < movie.genres.length; i++) {
           const badge = document.createElement("span")
@@ -30,7 +29,6 @@ class HomePage {
           );
           badge.innerText = genres[movie.genres[i]]
           figCaption.appendChild(badge)
-          //newArrForGenres.push(genres[movie.genres[i]]);
         }
       }
       if (movie.rating) {
@@ -44,7 +42,6 @@ class HomePage {
       badge.innerText = movie.rating
       p.appendChild(badge)
       figCaption.appendChild(p)
-      //figCaption.innerHTML = `${movie.rating} ${newArrForGenres.join(" ")} `;
       }
       
       movieDiv.classList.add(
@@ -68,9 +65,6 @@ class HomePage {
         } else {
           ActorInfo.run(movie);
         }
-        // setTimeout(function () {
-        //   window.scrollTo(0, 0);
-        // }, 400);
       });
       figure.append(movieImage, figCaption);
       cards.appendChild(figure);
@@ -79,11 +73,8 @@ class HomePage {
       movieDiv.appendChild(movieTitle);
       this.container.appendChild(movieDiv);
       ScrollReveal().reveal(".reveal", {
-        delay: 100,
-        distance: "150%",
-        origin: "bottom",
-        opacity: null,
-      });
+         duration: 750,
+        });
     });
   }
 }

@@ -1,3 +1,4 @@
+//this class is used to create a new instance when used for fetching in APIServices class
 class Actor {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {

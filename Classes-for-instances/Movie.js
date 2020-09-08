@@ -1,3 +1,4 @@
+//this class is used to create a new instance when used for fetching in APIServices class
 class Movie {
   static BACKDROP_BASE_URL = "http://image.tmdb.org/t/p/w780";
   constructor(json) {
@@ -25,7 +26,6 @@ class Movie {
   get genresStrings() {
     if (this.genresNames) {
       const genres = [];
-      //const genres = document.querySelector("#genres")
       for (let i = 0; i < this.genresNames.length; i++) {
         genres.push(this.genresNames[i].name);
       }
@@ -59,11 +59,10 @@ class Movie {
     } else {
       return "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
     }
-    // return this.backdropPath ? Movie.BACKDROP_BASE_URL + this.backdropPath : "https://betravingknows.com/wp-content/uploads/2017/06/video-movie-placeholder-image-grey.png";
   }
   get posterUrl() {
     return this.posterPath ? Movie.BACKDROP_BASE_URL + this.posterPath : "";
   }
 }
 
-// make the genres render based on an object
+
